@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path')
 const escape = require('escape-string-regexp')
-const packageDirs = [path.resolve(__dirname, '../core')]
+const packageDirs = [path.resolve(__dirname, '../core'), path.resolve(__dirname, '../wifi')]
 
 const watchFolders = [...packageDirs]
 

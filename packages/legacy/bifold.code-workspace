@@ -4,6 +4,9 @@
 			"path": "core"
 		},
 		{
+			"path": "wifi"
+		},
+		{
 			"path": "app"
 		}
 	],

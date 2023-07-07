@@ -5982,6 +5982,7 @@ __metadata:
     react-native-uuid: 2.0.1
     react-native-vector-icons: ^9.2.0
     react-native-webview: ^11.22.3
+    react-native-wifi: "link:../wifi"
     typescript: 4.4.3
     uuid: 8.3.2
   languageName: unknown
@@ -17494,6 +17495,12 @@ __metadata:
   checksum: d2f95a89e944a2f1e8cf402e4e274f3568edae42e7ef190915e9fba8004a01d699c962459bdc9688c159060538e90aea3017cab24e6f4112021cbbc10ef57104
   languageName: node
   linkType: hard
+
+"react-native-wifi@link:../wifi::locator=aries-bifold-app%40workspace%3Apackages%2Flegacy%2Fapp":
+  version: 0.0.0-use.local
+  resolution: "react-native-wifi@link:../wifi::locator=aries-bifold-app%40workspace%3Apackages%2Flegacy%2Fapp"
+  languageName: node
+  linkType: soft
 
 "react-native@npm:0.66.5":
   version: 0.66.5

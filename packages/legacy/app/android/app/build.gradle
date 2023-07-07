@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "dagger.hilt.android.plugin"
 
 import com.android.build.OutputFile
 
@@ -215,6 +216,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'com.google.dagger:hilt-android:2.45'
+    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.45'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.45'
 }
 
 // Run this once to be able to run the application with BUCK

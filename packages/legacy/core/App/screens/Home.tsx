@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import { useIsFocused } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, View, StyleSheet } from 'react-native'
+import NativeUtils from 'react-native-wifi'
 
 import NotificationListItem, { NotificationType } from '../components/listItems/NotificationListItem'
 import NoNewUpdates from '../components/misc/NoNewUpdates'
@@ -61,6 +63,18 @@ const Home: React.FC<HomeProps> = () => {
     }
     return component
   }
+
+  useEffect(() => {
+    try {
+      const promise: Promise<boolean> = NativeUtils.permission.init()
+      promise
+        .then((t: boolean) => t && NativeUtils.permission.initPowerManager())
+        .then((t: boolean) => console.info('initPowerManager', t))
+        .catch((e: boolean) => console.error('initPowerManager', e))
+    } catch (e: unknown) {
+      console.error('addWifiNetwork error', e)
+    }
+  }, [])
 
   useEffect(() => {
     const shouldShowTour =
