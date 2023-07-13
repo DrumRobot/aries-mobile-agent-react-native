@@ -73,6 +73,7 @@ const translation = {
   "Language": {
     "English": "Inglês",
     "French": "Francês",
+    "Korean": "Coreano",
     "Portuguese": "Português",
   },
   "Error": {

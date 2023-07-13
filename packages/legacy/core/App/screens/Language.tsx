@@ -20,6 +20,7 @@ const Language = () => {
   const languages = [
     { id: Locales.en, value: t('Language.English', { lng: Locales.en }) },
     { id: Locales.fr, value: t('Language.French', { lng: Locales.fr }) },
+    { id: Locales.ko, value: t('Language.Korean', { lng: Locales.ko }) },
     { id: Locales.ptBr, value: t('Language.Portuguese', { lng: Locales.ptBr }) },
   ]
 

@@ -8,6 +8,7 @@ import { defaultLanguage } from '../constants'
 
 import en from './en'
 import fr from './fr'
+import ko from './ko'
 import ptBr from './pt-br'
 
 export type Translation = typeof en
@@ -23,6 +24,9 @@ export const translationResources: TranslationResources = {
   fr: {
     translation: fr,
   },
+  ko: {
+    translation: ko,
+  },
   'pt-BR': {
     translation: ptBr,
   },
@@ -31,6 +35,7 @@ export const translationResources: TranslationResources = {
 export enum Locales {
   en = 'en',
   fr = 'fr',
+  ko = 'ko',
   ptBr = 'pt-BR',
 }
 

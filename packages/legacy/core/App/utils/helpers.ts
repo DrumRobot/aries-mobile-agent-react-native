@@ -120,6 +120,7 @@ export function formatTime(
 ): string {
   const getMonthKey = 'MMMM'
   const momentTime = moment(time)
+  return momentTime.calendar()
   const monthKey = momentTime.format(getMonthKey)
   const customMonthFormatRe = /M+/
   const shortMonth = params?.shortMonth
