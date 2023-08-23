@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native'
 import {
   AgentProvider,
   TourProvider,
@@ -28,6 +29,10 @@ import { useEffect, useMemo } from 'react'
 import { StatusBar } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import Toast from 'react-native-toast-message'
+
+Sentry.init({
+  tracesSampleRate: 1.0,
+})
 
 initLanguages(translationResources)
 
@@ -81,4 +86,4 @@ const App = () => {
   )
 }
 
-export default App
+export default Sentry.wrap(App)

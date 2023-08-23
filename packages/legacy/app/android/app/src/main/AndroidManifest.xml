@@ -16,6 +16,7 @@
       android:resizeableActivity="false"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
+      <meta-data android:name="io.sentry.dsn" android:value="https://eddf8bb69fca4d469d5b97b7c03531a2@o4505248881180672.ingest.sentry.io/4505317177360384" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
