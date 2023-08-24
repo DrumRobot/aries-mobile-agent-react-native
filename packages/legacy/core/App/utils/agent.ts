@@ -57,7 +57,7 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl }: GetAgen
       autoAcceptConnections: true,
     }),
     credentials: new CredentialsModule({
-      autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
+      autoAcceptCredentials: AutoAcceptCredential.Always,
       credentialProtocols: [
         new V1CredentialProtocol({ indyCredentialFormat }),
         new V2CredentialProtocol({
@@ -66,7 +66,7 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl }: GetAgen
       ],
     }),
     proofs: new ProofsModule({
-      autoAcceptProofs: AutoAcceptProof.ContentApproved,
+      autoAcceptProofs: AutoAcceptProof.Always,
       proofProtocols: [
         new V1ProofProtocol({ indyProofFormat }),
         new V2ProofProtocol({
