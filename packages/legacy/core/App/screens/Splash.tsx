@@ -1,4 +1,4 @@
-import { Agent, ConsoleLogger, HttpOutboundTransport, LogLevel, WsOutboundTransport } from '@aries-framework/core'
+import { Agent, ConsoleLogger, HttpOutboundTransport, KeyDerivationMethod, LogLevel, WsOutboundTransport } from '@aries-framework/core'
 import { useAgent } from '@aries-framework/react-hooks'
 import { agentDependencies } from '@aries-framework/react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -6,11 +6,12 @@ import { useNavigation } from '@react-navigation/core'
 import { CommonActions } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { NativeModules, StyleSheet } from 'react-native'
 import { Config } from 'react-native-config'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
+import ledgers from '../../configs/ledgers/indy'
 import { ToastType } from '../components/toast/BaseToast'
 import { LocalStorageKeys } from '../constants'
 import { useAnimatedComponents } from '../contexts/animated-components'
@@ -28,6 +29,7 @@ import {
   Tours as ToursState,
 } from '../types/state'
 import { getAgentModules, createLinkSecretIfRequired } from '../utils/agent'
+import { connectFromInvitation } from '../utils/helpers'
 import { migrateToAskar, didMigrateToAskar } from '../utils/migration'
 
 const onboardingComplete = (state: StoreOnboardingState): boolean => {
@@ -205,7 +207,19 @@ const Splash: React.FC = () => {
 
     const initAgent = async (): Promise<void> => {
       try {
-        const credentials = await getWalletCredentials()
+        const res = await fetch(`http://192.168.42.5:3000/urls`)
+        const urls = await res.json()
+        const data = urls.reduce((acc: { [name: string]: string }, item: { id: string; value: string }) => {
+          acc[item.id] = item.value
+          return acc
+        }, {})
+        Config.MEDIATOR_URL = data.MEDIATOR_URL
+
+        const credentials = await NativeModules.Aries.config({
+          ...indyLedgers[0],
+          label: store.preferences.walletName || 'Aries Bifold',
+          mediatorUrl: Config.MEDIATOR_URL,
+        })
 
         if (!credentials?.id || !credentials.key) {
           // Cannot find wallet id/secret
@@ -218,6 +232,7 @@ const Splash: React.FC = () => {
             walletConfig: {
               id: credentials.id,
               key: credentials.key,
+              keyDerivationMethod: KeyDerivationMethod.Raw,
             },
             logger: new ConsoleLogger(LogLevel.trace),
             autoUpdateStorageOnStartup: true,
@@ -234,22 +249,11 @@ const Splash: React.FC = () => {
         newAgent.registerOutboundTransport(wsTransport)
         newAgent.registerOutboundTransport(httpTransport)
 
-        // If we haven't migrated to Aries Askar yet, we need to do this before we initialize the agent.
-        if (!didMigrateToAskar(store.migration)) {
-          newAgent.config.logger.debug('Agent not updated to Aries Askar, updating...')
-
-          await migrateToAskar(credentials.id, credentials.key, newAgent)
-
-          newAgent.config.logger.debug('Successfully finished updating agent to Aries Askar')
-          // Store that we migrated to askar.
-          dispatch({
-            type: DispatchAction.DID_MIGRATE_TO_ASKAR,
-          })
-        }
-
         await newAgent.initialize()
 
         await createLinkSecretIfRequired(newAgent)
+
+        connectFromInvitation(data.INVITATION_URL, newAgent)
 
         setAgent(newAgent)
         navigation.dispatch(
@@ -259,6 +263,7 @@ const Splash: React.FC = () => {
           })
         )
       } catch (e: unknown) {
+        console.error(e)
         Toast.show({
           type: ToastType.Error,
           text1: t('Global.Failure'),
