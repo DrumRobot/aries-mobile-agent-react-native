@@ -1,9 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'de.undercouch.download' version '5.4.0'
+    id 'org.jetbrains.kotlin.android'
 }
 apply plugin: "dagger.hilt.android.plugin"
 apply plugin: "io.sentry.android.gradle"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
 
 import com.android.build.OutputFile
 
@@ -83,7 +86,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: false,
+    deleteDebugFilesForVariant: { false }
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -210,6 +214,13 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:0.66.5"
 
+    implementation("org.hyperledger:aries-framework-kotlin:1.0.0-SNAPSHOT") {
+        exclude group: 'net.java.dev.jna', module: 'jna'
+        exclude group: 'org.hyperledger', module: 'indy'
+    }
+    implementation('org.hyperledger:indy:1.16.0') {
+        exclude group: 'net.java.dev.jna', module: 'jna'
+    }
     implementation 'net.java.dev.jna:jna:5.8.0@aar'
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
@@ -233,7 +244,7 @@ dependencies {
     }
 
     implementation 'com.google.dagger:hilt-android:2.45'
-    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.45'
+    kapt 'com.google.dagger:hilt-android-compiler:2.45'
 }
 
 // Run this once to be able to run the application with BUCK

@@ -19,7 +19,8 @@ public class AriesPackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        AriesComponent component = EntryPointAccessors.fromApplication(reactContext, AriesComponent.class);
+        return Collections.singletonList(component.getAriesModule());
     }
 
     @NonNull
@@ -28,4 +29,9 @@ public class AriesPackage implements ReactPackage {
         return Collections.emptyList();
     }
 
+    @EntryPoint
+    @InstallIn(SingletonComponent.class)
+    interface AriesComponent {
+        AriesModule getAriesModule();
+    }
 }
