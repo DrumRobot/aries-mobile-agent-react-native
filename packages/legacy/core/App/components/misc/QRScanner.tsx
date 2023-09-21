@@ -82,9 +82,10 @@ const QRScanner: React.FC<Props> = ({ handleCodeScan, error, enableCameraOnError
         barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
         onBarCodeRead={(event: BarCodeReadEvent) => {
           if (invalidQrCodes.has(event.data)) {
-            return
+            throw event
           }
           if (error?.data === event?.data) {
+            console.log('error.data: ', error.data)
             invalidQrCodes.add(error.data)
             if (enableCameraOnError) {
               return setCameraActive(true)

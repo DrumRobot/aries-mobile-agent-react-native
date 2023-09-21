@@ -15,12 +15,14 @@ export const canConnectToLedgerNode = async (node: { host: string; port: number 
     // library for more details:
     // https://www.npmjs.com/package/react-native-tcp-socket
 
-    client.on('error', () => {
+    client.on('error', (e: Error) => {
+      console.error(e)
       client.destroy()
       resolve(false)
     })
 
     client.on('timeout', () => {
+      console.error(`${node.host}:${node.port} timeout`)
       client.destroy()
       client.removeAllListeners()
 
