@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -39,5 +41,11 @@ allprojects {
         google()
         maven { url 'https://repo.sovrin.org/repository/maven-public' }
         maven { url 'https://www.jitpack.io' }
+    }
+}
+
+tasks.withType(KotlinCompile).forEach {
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
