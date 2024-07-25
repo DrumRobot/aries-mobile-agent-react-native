@@ -219,6 +219,7 @@ const Splash: React.FC = () => {
           ...indyLedgers[0],
           label: store.preferences.walletName || 'Aries Bifold',
           mediatorUrl: Config.MEDIATOR_URL,
+          walletId: 'walletId',
         })
 
         if (!credentials?.id || !credentials.key) {
@@ -253,7 +254,7 @@ const Splash: React.FC = () => {
 
         await createLinkSecretIfRequired(newAgent)
 
-        connectFromInvitation(data.INVITATION_URL, newAgent)
+        // connectFromInvitation(data.INVITATION_URL, newAgent)
 
         setAgent(newAgent)
         navigation.dispatch(
